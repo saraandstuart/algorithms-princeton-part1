@@ -8,18 +8,11 @@ import org.junit.Test;
  * @author Stuart Shannon
  */
 public class SolverTest {
-
-    @Test
+    
+    @Test(expected=NullPointerException.class)
     public void throwsNullPointerExceptionIfNullBoardPassedToConstructor() {
-        try {
-            @SuppressWarnings("unused")
-            Solver solver = new Solver(null);
-        }
-        catch (NullPointerException npe) {
-            assert(true);
-        }
-        // NullPointerException should be thrown - should never reach this code.
-        assert(false);
+        @SuppressWarnings("unused")
+        Solver solver = new Solver(null);
     }
     
     @Test
