@@ -1,3 +1,4 @@
+
 /**
  * Kd-tree exercise PointSET
  * 
@@ -6,16 +7,18 @@
  */
 public class PointSET {
 
+	private SET<Point2D> points;
+	
     public PointSET() {
-
+    	points = new SET<Point2D>();
     }
     
     public boolean isEmpty() {
-        return false;
+        return points.isEmpty();
     }
     
     public int size() {
-        return -1;
+        return points.size();
     }
     
     // add the point to the set (if it is not already in the set)
@@ -23,6 +26,8 @@ public class PointSET {
         if (p == null) {
             throw new NullPointerException("Atempt to insert null point");
         }
+        
+        points.add(p);
     }
 
     // does the set contain point p? 
@@ -31,12 +36,12 @@ public class PointSET {
             throw new NullPointerException();
         }
         
-        return false;
+        return points.contains(p);
     }
     
     // draw all points to standard draw 
     public void draw() {
-
+    	throw new UnsupportedOperationException();
     }
     
     // all points that are inside the rectangle 
@@ -45,7 +50,7 @@ public class PointSET {
             throw new NullPointerException();
         }
         
-        return null;
+        throw new UnsupportedOperationException();
     }
     
     // a nearest neighbor in the set to point p; null if the set is empty 
@@ -54,7 +59,7 @@ public class PointSET {
             throw new NullPointerException();
         }
         
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }
