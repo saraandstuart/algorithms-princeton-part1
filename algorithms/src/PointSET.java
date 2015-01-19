@@ -21,7 +21,6 @@ public class PointSET {
         return points.size();
     }
     
-    // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
         if (p == null) {
             throw new NullPointerException("Atempt to insert null point");
@@ -30,7 +29,6 @@ public class PointSET {
         points.add(p);
     }
 
-    // does the set contain point p? 
     public boolean contains(Point2D p) {
         if (p == null) {
             throw new NullPointerException();
@@ -39,9 +37,10 @@ public class PointSET {
         return points.contains(p);
     }
     
-    // draw all points to standard draw 
     public void draw() {
-    	throw new UnsupportedOperationException();
+    	for (Point2D p : points) {
+    		p.draw();
+    	}
     }
     
     // all points that are inside the rectangle 
@@ -50,7 +49,15 @@ public class PointSET {
             throw new NullPointerException();
         }
         
-        throw new UnsupportedOperationException();
+        Stack<Point2D> stack = new Stack<Point2D>();
+        
+        for (Point2D p : points) {
+        	if (rect.contains(p)) {
+        		stack.push(p);
+        	}
+        }
+        
+        return stack;
     }
     
     // a nearest neighbor in the set to point p; null if the set is empty 
@@ -59,7 +66,19 @@ public class PointSET {
             throw new NullPointerException();
         }
         
-        throw new UnsupportedOperationException();
+        if (isEmpty()) {
+        	return null;
+        }
+        else {
+        	Point2D min = null;
+        	
+        	for (Point2D curr : points) {
+        		if (min == null || curr.distanceSquaredTo(p) < min.distanceSquaredTo(p)) {
+        			min = curr;
+        		}
+        	}
+        	return min;
+        }
     }
 
 }
