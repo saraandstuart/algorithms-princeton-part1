@@ -70,14 +70,16 @@ public class PointSET {
         	return null;
         }
         else {
-        	Point2D min = null;
-        	
+        	Point2D nearest = null;
+        	double minDistance = Double.MAX_VALUE;
         	for (Point2D curr : points) {
-        		if (min == null || curr.distanceSquaredTo(p) < min.distanceSquaredTo(p)) {
-        			min = curr;
+        		double currDistance = curr.distanceSquaredTo(p);
+        		if (currDistance < minDistance) {
+        			minDistance = currDistance;
+        			nearest = curr;
         		}
         	}
-        	return min;
+        	return nearest;
         }
     }
 
