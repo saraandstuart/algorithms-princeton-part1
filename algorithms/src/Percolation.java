@@ -21,6 +21,7 @@ public class Percolation {
     private int gridSize;
     private boolean[][] grid;
     private WeightedQuickUnionUF weightedQuickUnionUF;
+    private WeightedQuickUnionUF noBackWashWeightedQuickUnionUF;
     private int virtualTop;
     private int virtualBottom;
 
@@ -34,19 +35,11 @@ public class Percolation {
         gridSize = N;
         grid = new boolean[N+1][N+1];
         weightedQuickUnionUF = new WeightedQuickUnionUF(N*N + 2);
+        noBackWashWeightedQuickUnionUF = new WeightedQuickUnionUF(N*N + 2);
 
         // assign integer values to virtual top and virtual bottom sites
         virtualTop = N*N;
         virtualBottom = N*N + 1;
-
-        // connect virtualTop to all sites on the top row
-        for (int i = 1; i <= N; i++) {
-            weightedQuickUnionUF.union(virtualTop, ijTo1D(1, i));
-        }
-        // connect virtualBottom to all sites on the bottom row
-        for (int i = 1; i <= N; i++) {
-            weightedQuickUnionUF.union(virtualBottom, ijTo1D(gridSize, i));
-        }
     }
 
     /**
@@ -58,76 +51,10 @@ public class Percolation {
         validateIndices(i, j);
 
         grid[i][j] = true; // mark site as open
-
-        linkToNeighbourIfOpenLeft(i, j);
-        linkToNeighbourIfOpenRight(i, j);
-        linkToNeighBourIfOpenAbove(i, j);
-        linkToNeighbourIfOpenBelow(i, j);
-    }
-
-
-    /**
-     * Is site (row i, column j) open?
-     * @param i - row
-     * @param j - column
-     * @return
-     */
-    public boolean isOpen(int i, int j) {
-        validateIndices(i, j);
-        return grid[i][j];
-    }
-
-    /**
-     * Is site (row i, column j) full?
-     * @param i - row
-     * @param j - column
-     * @return
-     */
-    public boolean isFull(int i, int j) {
-        return isOpen(i, j) 
-                && weightedQuickUnionUF.connected(virtualTop, ijTo1D(i, j));
-    }
-
-    /**
-     * Does the system percolate?
-     * @return
-     */
-    public boolean percolates() {
-        return weightedQuickUnionUF.connected(virtualTop, virtualBottom);
-    }
-
-    private void linkToNeighbourIfOpenLeft(int i, int j) {
-        if (j != 1 && isOpen(i, j-1)) {
-            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i, j-1));
-        }
-    }
-
-    private void linkToNeighbourIfOpenRight(int i, int j) {
-        if (j != gridSize && isOpen(i, j+1)) {
-            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i, j+1));
-        }
-    }
-
-    private void linkToNeighBourIfOpenAbove(int i, int j) {
-        if (i != 1 && isOpen(i-1, j)) {
-            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i-1, j));
-        }
-    }
-
-    private void linkToNeighbourIfOpenBelow(int i, int j) {
-        if (i != gridSize && isOpen(i+1, j)) {
-            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i+1, j));
-        }
-    }
-
-    /**
-     * Maps 2D coordinates of grid to 1D union find index.
-     * @param i row index/y coordinate, min value is 1
-     * @param j column index/x coordinate, min value is 1
-     * @return union find index
-     */
-    private int ijTo1D(int i, int j) {
-        return (i-1)*gridSize + (j-1);
+        
+        linkToVirtualTopIfOnTopRow(i, j);
+        linkToVirtualBottomIfOnBottomRow(i, j);
+        linkToNeighboursIfOpen(i, j);
     }
 
     /**
@@ -145,34 +72,118 @@ public class Percolation {
                     + "(1 < j < " + gridSize + "), j was " + j);
         }
     }
+    
+	private void linkToVirtualTopIfOnTopRow(int i, int j) {
+		if (i == 1) {
+        	weightedQuickUnionUF.union(virtualTop, ijTo1D(i, j));
+        	noBackWashWeightedQuickUnionUF.union(virtualTop, ijTo1D(i, j));
+        }
+	}
+	
+	private void linkToVirtualBottomIfOnBottomRow(int i, int j) {
+		if (i == gridSize) {
+			weightedQuickUnionUF.union(virtualBottom, ijTo1D(i, j));
+		}
+	}
+	
+	private void linkToNeighboursIfOpen(int i, int j) {
+		linkToNeighbourIfOpenLeft(i, j);
+        linkToNeighbourIfOpenRight(i, j);
+        linkToNeighBourIfOpenAbove(i, j);
+        linkToNeighbourIfOpenBelow(i, j);
+	}
+    
+    private void linkToNeighbourIfOpenLeft(int i, int j) {
+        if (j != 1 && isOpen(i, j-1)) {
+            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i, j-1));
+            noBackWashWeightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i, j-1));
+        }
+    }
+
+    private void linkToNeighbourIfOpenRight(int i, int j) {
+        if (j != gridSize && isOpen(i, j+1)) {
+            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i, j+1));
+            noBackWashWeightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i, j+1));
+        }
+    }
+
+    private void linkToNeighBourIfOpenAbove(int i, int j) {
+        if (i != 1 && isOpen(i-1, j)) {
+            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i-1, j));
+            noBackWashWeightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i-1, j));
+        }
+    }
+
+    private void linkToNeighbourIfOpenBelow(int i, int j) {
+        if (i != gridSize && isOpen(i+1, j)) {
+            weightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i+1, j));
+            noBackWashWeightedQuickUnionUF.union(ijTo1D(i, j), ijTo1D(i+1, j));
+        }
+    }
+    
+    /**
+     * Maps 2D coordinates of grid to 1D union find index.
+     * @param i row index/y coordinate, min value is 1
+     * @param j column index/x coordinate, min value is 1
+     * @return union find index
+     */
+    private int ijTo1D(int i, int j) {
+        return (i-1)*gridSize + (j-1);
+    }
+
+    /**
+     * Is site (row i, column j) open?
+     * @param i - row index/y coordinate
+     * @param j - column index/x coordinate
+     */
+    public boolean isOpen(int i, int j) {
+        validateIndices(i, j);
+        return grid[i][j];
+    }
+
+    /**
+     * Is site (row i, column j) full?
+     * @param i - row index/y coordinate
+     * @param j - column index/x coordinate
+     */
+    public boolean isFull(int i, int j) {
+        return isOpen(i, j) 
+                && noBackWashWeightedQuickUnionUF.connected(virtualTop, ijTo1D(i, j));
+    }
+
+    /**
+     * Does the system percolate?
+     */
+    public boolean percolates() {
+        return weightedQuickUnionUF.connected(virtualTop, virtualBottom);
+    }
 
     // test client, optional
     public static void main(String[] args) {
         Percolation p = new Percolation(7);
 
-        StdOut.println(">>>xyTo1D tests");
+        StdOut.println(">>> ijTo1D tests");
         // 1. 1,1 => 0
-        StdOut.print("1. expected: 0, ");
-        StdOut.println("actual: " + p.ijTo1D(1, 1) + ", result: "
-                + (0 == p.ijTo1D(1, 1)));
+        StdOut.print("1. expected=0, ");
+        StdOut.println("actual=" + p.ijTo1D(1, 1));
 
         // 2. 5,4 => 31
-        StdOut.print("2. expected: 31, ");
-        StdOut.println("actual: " + p.ijTo1D(5, 4) + ", result: " 
-                + (31 == p.ijTo1D(5, 4)));
+        StdOut.print("2. expected=31, ");
+        StdOut.println("actual=" + p.ijTo1D(5, 4));
 
         // 3. 7,5 => 46
-        StdOut.print("3. expected: 46, ");
-        StdOut.println("actual: " + p.ijTo1D(7, 5) + ", result: " 
-                + (46 == p.ijTo1D(7, 5)));
-        StdOut.println("<<<xyTo1D tests");
+        StdOut.print("3. expected=46, ");
+        StdOut.println("actual=" + p.ijTo1D(7, 5));
+        StdOut.println("<<< ijTo1D tests");
+        
         // test open and constructor
-//        StdOut.println(">>>open and constructor tests");
-//        p.open(1, 1);
-//        p.open(1, 2);
-//        StdOut.println("1. result= " 
-//        + p.weightedQuickUnionUF.connected(p.ijTo1D(1, 1), p.ijTo1D(1, 2)));
-//        StdOut.println("<<<open and constructor tests");
+        StdOut.println(">>> open and constructor tests");
+        p.open(1, 1);
+        p.open(1, 2);
+        StdOut.print("1. Is (1,1) and 1,2) connected, expected=true, ");
+        StdOut.println("actual=" 
+        		+ p.weightedQuickUnionUF.connected(p.ijTo1D(1, 1), p.ijTo1D(1, 2)));
+        StdOut.println("<<< open and constructor tests");
 
 
     }
