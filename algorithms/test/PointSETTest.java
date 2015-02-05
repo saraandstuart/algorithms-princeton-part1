@@ -52,7 +52,7 @@ public class PointSETTest {
 	}
 
 	@Test
-	public void shouldReturnTrueWhenEmpty() {
+	public void shouldReturnFalseWhenNonEmpty() {
 		// Given
 		PointSET pointSet = new PointSET();
 		Point2D point2D = new Point2D(0.1, 0.1);
@@ -66,7 +66,7 @@ public class PointSETTest {
 	}
 
 	@Test
-	public void shouldReturnFalseWhenNonEmpty() {
+	public void shouldReturnTrueWhenEmpty() {
 		// Given
 		PointSET pointSet = new PointSET();
 

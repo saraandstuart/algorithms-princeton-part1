@@ -15,12 +15,14 @@ public class Subset {
         int k = Integer.parseInt(args[0]);         // k strings to read
         RandomizedQueue<String> randomizedQueue = new RandomizedQueue<String>();
         
+        while (StdIn.hasNextLine() && !StdIn.isEmpty()) {
+            String item = StdIn.readString();
+            randomizedQueue.enqueue(item);
+        }
+        
         for (int i = 0; i < k; i++) {
-            randomizedQueue.enqueue(StdIn.readString());
+            StdOut.println(randomizedQueue.iterator().next());
         }
-       
-        for (String curr : randomizedQueue) {
-            StdOut.println(curr);
-        }
+        
     }
 }

@@ -6,16 +6,32 @@
  */
 public class KdTree {
 
-	public KdTree() {
+	private static class Node {
+		private Point2D p;      // the point
+		private RectHV rect;    // the axis-aligned rectangle corresponding to this node
+		private Node lb;        // the left/bottom subtree
+		private Node rt;        // the right/top subtree
 
+		public Node(Point2D p, RectHV rect) {
+			this.p = p;
+			this.rect = rect;
+		}
+	}
+	
+	private Node root;
+	
+	private int size;
+
+	public KdTree() {
+		size = 0;
 	}
 
 	public boolean isEmpty() {
-		return false;
+		return size == 0;
 	}
 
 	public int size() {
-		return -1;
+		return size;
 	}
 
 	// add the point to the set (if it is not already in the set)
