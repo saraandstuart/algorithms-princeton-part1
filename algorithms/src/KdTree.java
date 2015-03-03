@@ -6,6 +6,11 @@
  */
 public class KdTree {
 
+    private static final double X_MIN = 0.0;
+    private static final double X_MAX = 1.0;
+    private static final double Y_MIN = 0.0;
+    private static final double Y_MAX = 1.0;
+    
     private static class Node {
         private Point2D p;      // the point
         private RectHV rect;    // the axis-aligned rectangle corresponding to this node
@@ -46,25 +51,45 @@ public class KdTree {
         if (p == null) {
             throw new NullPointerException("Atempt to insert null point");
         }
-        root = insert(root, p, true);
+        root = insert(root, p, X_MIN, Y_MIN, X_MAX, Y_MAX, true);
     }
 
-    private Node insert(Node x, Point2D p, boolean vertical) {
+    private Node insert(Node x, 
+            Point2D p, 
+            double xmin, 
+            double ymin, 
+            double xmax, 
+            double ymax, 
+            boolean vertical) {
         if (x == null) {
             size++;
-            return new Node(p, null);
+            return new Node(p, new RectHV(xmin, ymin, xmax, ymax));
         }
 
         int cmp = x.compare(p, vertical);
 
         if (goLeft(cmp)) {
-            x.lb = insert(x.lb, p, !vertical);
+            if (vertical) {
+                x.lb = insert(x.lb, p, xmin, ymin, x.p.x(), ymax, toggleOrientation(vertical));
+            }
+            else { //horizontal
+                x.lb = insert(x.lb, p, xmin, ymin, xmax, x.p.y(), toggleOrientation(vertical));
+            }
         }
         else if (goRight(cmp)) {
-            x.rt = insert(x.rt, p, !vertical);
+            if (vertical) {
+                x.rt = insert(x.rt, p, x.p.x(), ymin, xmax, ymax, toggleOrientation(vertical));
+            }
+            else { //horizontal
+                x.rt = insert(x.rt, p, xmin, x.p.y(), xmax, ymax, toggleOrientation(vertical));
+            }
         }
 
-        return x; // current node's p is equal to insertion node's p
+        return x; // current node's p is equal to insert's node's p
+    }
+    
+    private boolean toggleOrientation(boolean vertical) {
+        return !vertical;
     }
 
     private boolean goLeft(int cmp) {
@@ -95,7 +120,7 @@ public class KdTree {
             return contains(x.rt, p, !vertical);
         }
 
-        return true; // current node's p is equal to insertion node's p
+        return true; // current node's p is equal to contain's node's p
     }
 
 
