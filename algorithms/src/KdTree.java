@@ -54,13 +54,7 @@ public class KdTree {
         root = insert(root, p, X_MIN, Y_MIN, X_MAX, Y_MAX, true);
     }
 
-    private Node insert(Node x, 
-            Point2D p, 
-            double xmin, 
-            double ymin, 
-            double xmax, 
-            double ymax, 
-            boolean vertical) {
+    private Node insert(Node x, Point2D p, double xmin, double ymin, double xmax, double ymax, boolean vertical) {
         if (x == null) {
             size++;
             return new Node(p, new RectHV(xmin, ymin, xmax, ymax));
@@ -124,9 +118,32 @@ public class KdTree {
     }
 
 
-    // draw all points to standard draw 
+    // draw all points and subdivisions to standard draw 
     public void draw() {
-
+        draw(root, true);
+    }
+    
+    private void draw(Node x, boolean vertical) {
+        if (x == null) return;
+        
+        // draw point
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(.01);
+        x.p.draw();
+        
+        // draw line
+        StdDraw.setPenRadius();
+        if (vertical) {
+            StdDraw.setPenColor(StdDraw.RED);
+            
+        }
+        else { //horizontal
+            StdDraw.setPenColor(StdDraw.BLUE);
+            
+        }
+        
+        draw(x.lb, toggleOrientation(vertical));
+        draw(x.rt, toggleOrientation(vertical));
     }
 
     // all points that are inside the rectangle 
