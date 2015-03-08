@@ -61,31 +61,33 @@ public class KdTree {
         }
 
         int cmp = x.compare(p, vertical);
+        
+        boolean nextOrientationVertical = nextOrientation(vertical);
 
         if (goLeft(cmp)) {
-            if (vertical) {
-                x.lb = insert(x.lb, p, xmin, ymin, xmax, x.p.y(), toggleOrientation(vertical));
+            if (nextOrientationVertical) {
+                x.lb = insert(x.lb, p, xmin, ymin, xmax, x.p.y(), nextOrientation(vertical));
             }
             else { //horizontal
-                x.lb = insert(x.lb, p, xmin, ymin, x.p.x(), ymax, toggleOrientation(vertical));
+                x.lb = insert(x.lb, p, xmin, ymin, x.p.x(), ymax, nextOrientation(vertical));
             }
         }
         else if (goRight(cmp)) {
-            if (vertical) {
-                x.rt = insert(x.rt, p, xmin, x.p.y(), xmax, ymax, toggleOrientation(vertical));
+            if (nextOrientationVertical) {
+                x.rt = insert(x.rt, p, xmin, x.p.y(), xmax, ymax, nextOrientation(vertical));
             }
             else { //horizontal
-                x.rt = insert(x.rt, p, x.p.x(), ymin, xmax, ymax, toggleOrientation(vertical));
+                x.rt = insert(x.rt, p, x.p.x(), ymin, xmax, ymax, nextOrientation(vertical));
             }
         }
 
         return x; // current node's p is equal to insert's node's p
     }
     
-    private boolean toggleOrientation(boolean vertical) {
+    private boolean nextOrientation(boolean vertical) {
         return !vertical;
     }
-
+    
     private boolean goLeft(int cmp) {
         return cmp > 0;
     }
@@ -142,8 +144,8 @@ public class KdTree {
             StdDraw.line(x.rect.xmin(), x.p.y(), x.rect.xmax(), x.p.y());
         }
         
-        draw(x.lb, toggleOrientation(vertical));
-        draw(x.rt, toggleOrientation(vertical));
+        draw(x.lb, nextOrientation(vertical));
+        draw(x.rt, nextOrientation(vertical));
     }
 
     // all points that are inside the rectangle 
