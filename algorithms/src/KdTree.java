@@ -64,18 +64,18 @@ public class KdTree {
 
         if (goLeft(cmp)) {
             if (vertical) {
-                x.lb = insert(x.lb, p, xmin, ymin, x.p.x(), ymax, toggleOrientation(vertical));
+                x.lb = insert(x.lb, p, xmin, ymin, xmax, x.p.y(), toggleOrientation(vertical));
             }
             else { //horizontal
-                x.lb = insert(x.lb, p, xmin, ymin, xmax, x.p.y(), toggleOrientation(vertical));
+                x.lb = insert(x.lb, p, xmin, ymin, x.p.x(), ymax, toggleOrientation(vertical));
             }
         }
         else if (goRight(cmp)) {
             if (vertical) {
-                x.rt = insert(x.rt, p, x.p.x(), ymin, xmax, ymax, toggleOrientation(vertical));
+                x.rt = insert(x.rt, p, xmin, x.p.y(), xmax, ymax, toggleOrientation(vertical));
             }
             else { //horizontal
-                x.rt = insert(x.rt, p, xmin, x.p.y(), xmax, ymax, toggleOrientation(vertical));
+                x.rt = insert(x.rt, p, x.p.x(), ymin, xmax, ymax, toggleOrientation(vertical));
             }
         }
 
@@ -135,11 +135,11 @@ public class KdTree {
         StdDraw.setPenRadius();
         if (vertical) {
             StdDraw.setPenColor(StdDraw.RED);
-            
+            StdDraw.line(x.p.x(), x.rect.ymin(), x.p.x(), x.rect.ymax());
         }
         else { //horizontal
             StdDraw.setPenColor(StdDraw.BLUE);
-            
+            StdDraw.line(x.rect.xmin(), x.p.y(), x.rect.xmax(), x.p.y());
         }
         
         draw(x.lb, toggleOrientation(vertical));
