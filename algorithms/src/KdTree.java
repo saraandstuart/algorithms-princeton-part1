@@ -153,11 +153,37 @@ public class KdTree {
         if (rect == null) {
             throw new NullPointerException();
         }
+        
+        SET<Point2D> rangeSet = new SET<Point2D>();
+        range(root, rect, rangeSet);
 
-        return null;
+        return rangeSet;
+    }
+    
+    /**
+     * <pre>
+     * Optimization : 
+     * Instead of checking whether the query rectangle intersects the rectangle 
+     * corresponding to a node, it suffices to check only whether the query 
+     * rectangle intersects the splitting line segment: if it does, then 
+     * recursively search both subtrees; otherwise, recursively search the one 
+     * subtree where points intersecting the query rectangle could be.
+     * </pre>
+     */
+    private void range(Node x, RectHV rect, SET<Point2D> rangeSet) {
+        if (null == x) return;
+        
+        if (rect.intersects(x.rect)) {
+            if (rect.contains(x.p)) {
+                rangeSet.add(x.p);
+            }
+            range(x.lb, rect, rangeSet);
+            range(x.rt, rect, rangeSet);
+        }
+        
     }
 
-    // a nearest neighbor in the set to point p; null if the set is empty 
+    // a nearest neighbour in the set to point p; null if the set is empty 
     public Point2D nearest(Point2D p) {
         if (p == null) {
             throw new NullPointerException();
