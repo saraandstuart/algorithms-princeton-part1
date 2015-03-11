@@ -154,10 +154,10 @@ public class KdTree {
             throw new NullPointerException();
         }
         
-        SET<Point2D> rangeSet = new SET<Point2D>();
-        range(root, rect, rangeSet);
+        SET<Point2D> pointsInRectangle = new SET<Point2D>();
+        range(root, rect, pointsInRectangle);
 
-        return rangeSet;
+        return pointsInRectangle;
     }
     
     /**
@@ -170,15 +170,15 @@ public class KdTree {
      * subtree where points intersecting the query rectangle could be.
      * </pre>
      */
-    private void range(Node x, RectHV rect, SET<Point2D> rangeSet) {
-        if (null == x) return;
+    private void range(Node x, RectHV rect, SET<Point2D> pointsInRectangle) {
+        if (x == null) return;
         
         if (rect.intersects(x.rect)) {
             if (rect.contains(x.p)) {
-                rangeSet.add(x.p);
+                pointsInRectangle.add(x.p);
             }
-            range(x.lb, rect, rangeSet);
-            range(x.rt, rect, rangeSet);
+            range(x.lb, rect, pointsInRectangle);
+            range(x.rt, rect, pointsInRectangle);
         }
         
     }
@@ -189,7 +189,17 @@ public class KdTree {
             throw new NullPointerException();
         }
 
+        return nearest(root, p, root.p);
+    }
+
+    private Point2D nearest(Node x, Point2D p, Point2D champion) {
+        if (x == null) return champion;
+        
+        
+        
         return null;
     }
+    
+    
 
 }

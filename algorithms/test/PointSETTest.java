@@ -132,50 +132,56 @@ public class PointSETTest {
 		// Then
 		assertFalse(result);
 	}
+	
+    @Test
+    public void shouldReturnIterableOfPointsInsideRectangle() {
+        //given
+        RectHV rect = new RectHV(0.1, 0.1, 0.5, 0.5);
 
-	@Test
-	public void shouldReturnIterableOfPointsInsideRectangle() {
-		// Given
-		RectHV rect = new RectHV(0.1, 0.1, 0.5, 0.5);
+        Point2D point1 = new Point2D(0.1, 0.1);
+        Point2D point2 = new Point2D(0.2, 0.2);
+        Point2D point3 = new Point2D(0.5, 0.5);
+        Point2D point4 = new Point2D(0.6, 0.6);
 
-		Point2D point1 = new Point2D(0.1, 0.1);
-		Point2D point2 = new Point2D(0.2, 0.2);
-		Point2D point3 = new Point2D(0.5, 0.5);
-		Point2D point4 = new Point2D(0.6, 0.6);
+        PointSET points = new PointSET();
+        points.insert(point1);
+        points.insert(point2);
+        points.insert(point3);
+        points.insert(point4);
 
-		PointSET points = new PointSET();
-		points.insert(point1);
-		points.insert(point2);
-		points.insert(point3);
-		points.insert(point4);
+        List<Point2D> expectedPointsInRectangle = Arrays.asList(point1, point2, point3);
+        
+        //when
+        Iterable<Point2D> range = points.range(rect);
 
-		// When
-		Iterable<Point2D> range = points.range(rect);
+        List<Point2D> actualPointsInRectangle = new ArrayList<Point2D>();
+        for (Point2D p : range) {
+            actualPointsInRectangle.add(p);
+        }
 
-		List<Point2D> pointsInRange = new ArrayList<Point2D>();
-		for (Point2D p : range) {
-			pointsInRange.add(p);
-		}
+        //then
+        assertEquals(expectedPointsInRectangle, actualPointsInRectangle);
+    }
 
-		// Then
-		assertEquals(3, pointsInRange.size());
-		assertTrue(pointsInRange.containsAll(Arrays.asList(point1, point2, point3)));
-	}
+    @Test
+    public void shouldFindNearestPoint() {
+        //given
+        Point2D point1 = new Point2D(0.1, 0.1);
+        Point2D point2 = new Point2D(0.2, 0.2);
+        Point2D point3 = new Point2D(0.3, 0.3);
 
-	@Test
-	public void shouldFindNearestPoint() {
-		// Given
-		Point2D point1 = new Point2D(0.1, 0.1);
-		Point2D point2 = new Point2D(0.2, 0.2);
-		Point2D point3 = new Point2D(0.3, 0.3);
+        PointSET points = new PointSET();
+        points.insert(point1);
+        points.insert(point2);
 
-		PointSET points = new PointSET();
-		points.insert(point1);
-		points.insert(point2);
-
-		Point2D nearest = points.nearest(point3);
-		assertEquals(point2, nearest);
-	}
+        Point2D expectedNearest = point2;
+        
+        //when
+        Point2D actualNearest = points.nearest(point3);
+        
+        //then
+        assertEquals(expectedNearest, actualNearest);
+    }
 
 
 }
