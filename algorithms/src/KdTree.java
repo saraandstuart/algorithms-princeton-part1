@@ -192,14 +192,36 @@ public class KdTree {
         return nearest(root, p, root.p);
     }
 
-    private Point2D nearest(Node x, Point2D p, Point2D champion) {
-        if (x == null) return champion;
+    private Point2D nearest(Node x, Point2D queryPoint, Point2D closestSoFar) {
+        if (x == null) return closestSoFar;
+
+        double distanceClosestSoFarToQueryPoint = 
+                closestSoFar.distanceSquaredTo(queryPoint);
+        double distanceRectangleToQueryPoint = 
+                x.rect.distanceSquaredTo(queryPoint);
         
-        
-        
-        return null;
+        if (distanceRectangleToQueryPoint < distanceClosestSoFarToQueryPoint) {
+            if(x.p.distanceSquaredTo(queryPoint) < distanceClosestSoFarToQueryPoint) {
+                closestSoFar = x.p;
+            }
+            
+            // First check subtree that is on the same side of the splitting line as the queryPoint
+            Node first = null;
+            Node second = null;
+            if (x.rt != null && x.rt.rect.contains(queryPoint)) {
+                first = x.rt;
+                second = x.lb;
+            }
+            else {
+                first = x.lb;
+                second = x.rt;
+            }
+            
+            closestSoFar = nearest(first, queryPoint, closestSoFar);
+            closestSoFar = nearest(second, queryPoint, closestSoFar);
+        }
+
+        return closestSoFar;
     }
-    
-    
 
 }
