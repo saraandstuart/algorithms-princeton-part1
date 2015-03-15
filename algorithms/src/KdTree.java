@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /**
  * Kd-tree exercise KdTree
  * 
@@ -10,6 +12,9 @@ public class KdTree {
     private static final double X_MAX = 1.0;
     private static final double Y_MIN = 0.0;
     private static final double Y_MAX = 1.0;
+    
+    private static final Comparator<Point2D> POINT2D_X_ORDER = new Point2DXOrder();
+    private static final Comparator<Point2D> POINT2D_Y_ORDER = new Point2DYOrder();
     
     private static class Node {
         private Point2D p;      // the point
@@ -24,9 +29,28 @@ public class KdTree {
 
         private int compare(Point2D that, boolean vertical) {
             if (vertical) {
-                return Point2D.X_ORDER.compare(p, that);
+                return POINT2D_X_ORDER.compare(p, that);
             }
-            return Point2D.Y_ORDER.compare(p, that);
+            return POINT2D_Y_ORDER.compare(p, that);
+        }
+        
+    }
+    
+    // compare points according to their x-coordinate
+    private static class Point2DXOrder implements Comparator<Point2D> {
+        public int compare(Point2D p, Point2D q) {
+            if (p.x() < q.x()) return -1;
+            if (p.x() > q.x()) return +1;
+            return 0;
+        }
+    }
+
+    // compare points according to their y-coordinate
+    private static class Point2DYOrder implements Comparator<Point2D> {
+        public int compare(Point2D p, Point2D q) {
+            if (p.y() < q.y()) return -1;
+            if (p.y() > q.y()) return +1;
+            return 0;
         }
     }
 
