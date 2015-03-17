@@ -94,12 +94,15 @@ public class KdTreeTest {
 
     @Test
     public void insert100DistinctPointsAndCheckSizeAfterEachInsertion() {
+        insertNDistinctPointsAndCheckSizeAfterEachInsertion(100);
+    }
+    
+    private void insertNDistinctPointsAndCheckSizeAfterEachInsertion(int N) {
         //given
         KdTree kdTree = new KdTree();
-
         SET<Point2D> points = new SET<Point2D>();
 
-        while (points.size() < 100) {
+        while (points.size() < N) {
             double x = StdRandom.uniform(0.0, 1.0);
             double y = StdRandom.uniform(0.0, 1.0);
 
@@ -108,11 +111,12 @@ public class KdTreeTest {
 
         int i = 0;
         for (Point2D point : points) {
+            //when
             kdTree.insert(point);
             i++;
+            //then
             assertTrue(kdTree.size() == i);
         }
-
     }
 
     @Test
