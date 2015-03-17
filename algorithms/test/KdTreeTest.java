@@ -64,7 +64,7 @@ public class KdTreeTest {
         //then
         assertFalse(result);
     }
-    
+
     @Test
     public void shouldReturnTrueWhenEmpty() {
         //given
@@ -76,7 +76,7 @@ public class KdTreeTest {
         //then
         assertTrue(result);
     }
-    
+
     @Test
     public void shouldReturnCorrectSize() {
         //given
@@ -91,7 +91,30 @@ public class KdTreeTest {
         //then
         assertEquals(expected, actual);
     }
-    
+
+    @Test
+    public void insert100DistinctPointsAndCheckSizeAfterEachInsertion() {
+        //given
+        KdTree kdTree = new KdTree();
+
+        SET<Point2D> points = new SET<Point2D>();
+
+        while (points.size() < 100) {
+            double x = StdRandom.uniform(0.0, 1.0);
+            double y = StdRandom.uniform(0.0, 1.0);
+
+            points.add(new Point2D(x, y));
+        }
+
+        int i = 0;
+        for (Point2D point : points) {
+            kdTree.insert(point);
+            i++;
+            assertTrue(kdTree.size() == i);
+        }
+
+    }
+
     @Test
     public void shouldInsertPoint() {
         //given
@@ -105,7 +128,7 @@ public class KdTreeTest {
         //then
         assertEquals(1, kdTree.size());
     }
-    
+
     @Test
     public void shouldReturnTrueWhenContainsPoint() {
         //given
@@ -119,7 +142,7 @@ public class KdTreeTest {
         //then
         assertTrue(result);
     }
-    
+
     @Test
     public void shouldReturnFalseWhenDoesNotContainPoint() {
         //given
@@ -132,7 +155,7 @@ public class KdTreeTest {
         //then
         assertFalse(result);
     }
-    
+
     @Test
     public void shouldReturnIterableOfPointsInsideRectangle() {
         //given
@@ -150,7 +173,7 @@ public class KdTreeTest {
         points.insert(point4);
 
         List<Point2D> expectedPointsInRectangle = Arrays.asList(point1, point2, point3);
-        
+
         //when
         Iterable<Point2D> range = points.range(rect);
 
@@ -162,7 +185,7 @@ public class KdTreeTest {
         //then
         assertEquals(expectedPointsInRectangle, actualPointsInRectangle);
     }
-    
+
     @Test
     public void shouldFindNearestPoint() {
         //given
@@ -175,10 +198,10 @@ public class KdTreeTest {
         points.insert(point2);
 
         Point2D expectedNearest = point2;
-        
+
         //when
         Point2D actualNearest = points.nearest(point3);
-        
+
         //then
         assertEquals(expectedNearest, actualNearest);
     }
