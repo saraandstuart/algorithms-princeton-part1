@@ -93,8 +93,33 @@ public class KdTreeTest {
     }
 
     @Test
+    public void insert1DistinctPointsAndCheckSizeAfterEachInsertion() {
+        insertNDistinctPointsAndCheckSizeAfterEachInsertion(1);
+    }
+    
+    @Test
+    public void insert10DistinctPointsAndCheckSizeAfterEachInsertion() {
+        insertNDistinctPointsAndCheckSizeAfterEachInsertion(10);
+    }
+    
+    @Test
     public void insert100DistinctPointsAndCheckSizeAfterEachInsertion() {
         insertNDistinctPointsAndCheckSizeAfterEachInsertion(100);
+    }
+    
+    @Test
+    public void insert1000DistinctPointsAndCheckSizeAfterEachInsertion() {
+        insertNDistinctPointsAndCheckSizeAfterEachInsertion(1000);
+    }
+    
+    @Test
+    public void insert10000DistinctPointsAndCheckSizeAfterEachInsertion() {
+        insertNDistinctPointsAndCheckSizeAfterEachInsertion(10000);
+    }
+    
+    @Test
+    public void insert100000DistinctPointsAndCheckSizeAfterEachInsertion() {
+        insertNDistinctPointsAndCheckSizeAfterEachInsertion(100000);
     }
     
     private void insertNDistinctPointsAndCheckSizeAfterEachInsertion(int N) {
@@ -116,6 +141,32 @@ public class KdTreeTest {
             i++;
             //then
             assertTrue(kdTree.size() == i);
+        }
+    }
+    
+    @Test
+    public void insert100DistinctPointsIn10by10GridAndCheckSizeAfterEachInsertion() {
+      //given
+        KdTree kdTree = new KdTree();
+        SET<Point2D> points = new SET<Point2D>();
+
+        while (points.size() < 100) {
+            double x = StdRandom.uniform(10);
+            x = x / 10;
+            double y = StdRandom.uniform(10);
+            y = y / 10;
+
+            points.add(new Point2D(x, y));
+        }
+
+        int expectedSize = 0;
+        for (Point2D point : points) {
+            //when
+            kdTree.insert(point);
+            expectedSize++;
+            int actualSize = kdTree.size();
+            //then
+            assertEquals(expectedSize, actualSize);
         }
     }
 
