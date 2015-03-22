@@ -96,7 +96,7 @@ public class KdTree {
                 x.lb = insert(x.lb, p, xmin, ymin, x.p.x(), ymax, nextOrientation(vertical));
             }
         }
-        else if (goRight(cmp)) {
+        else { //goRight
             if (nextOrientationVertical) {
                 x.rt = insert(x.rt, p, xmin, x.p.y(), xmax, ymax, nextOrientation(vertical));
             }
@@ -105,7 +105,7 @@ public class KdTree {
             }
         }
 
-        return x; // current node's p is equal to insert's node's p
+        return x;
     }
     
     private boolean nextOrientation(boolean vertical) {
@@ -114,10 +114,6 @@ public class KdTree {
     
     private boolean goLeft(int cmp) {
         return cmp > 0;
-    }
-
-    private boolean goRight(int cmp) {
-        return cmp < 0;
     }
 
     // does the set contain point p? 
@@ -132,15 +128,17 @@ public class KdTree {
         if (x == null) return false;
 
         int cmp = x.compare(p, vertical);
+        int cmp2 = x.compare(p, !vertical);
 
-        if (goLeft(cmp)) {
+        if (cmp == 0 && cmp2 == 0) {
+            return true;
+        }
+        else if (goLeft(cmp)) {
             return contains(x.lb, p, !vertical);
         }
-        else if (goRight(cmp)) {
+        else { //goRight
             return contains(x.rt, p, !vertical);
         }
-
-        return true; // current node's p is equal to contain's node's p
     }
 
 
