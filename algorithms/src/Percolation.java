@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.StdOut;
 
 /**
  * This class simulates the percolation problem.

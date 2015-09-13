@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdRandom;
 
 /**
  * 8-Puzzle Board object

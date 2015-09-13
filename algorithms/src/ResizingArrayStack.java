@@ -1,6 +1,9 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
 /**
  *  The <tt>ResizingArrayStack</tt> class represents a last-in-first-out (LIFO) stack
  *  of generic items.

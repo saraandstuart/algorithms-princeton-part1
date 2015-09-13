@@ -1,6 +1,8 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import edu.princeton.cs.algs4.StdRandom;
+
 /**
  * This is an implementation of a randomized deque which is a similar to a 
  * stack or queue, except that the item removed is chosen uniformly at random 

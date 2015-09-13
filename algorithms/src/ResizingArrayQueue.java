@@ -1,6 +1,9 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
 /**
  *  The <tt>ResizingArrayQueue</tt> class represents a first-in-first-out (FIFO)
  *  queue of generic items.

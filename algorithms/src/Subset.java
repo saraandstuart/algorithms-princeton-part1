@@ -1,3 +1,6 @@
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
 /**
  * This program takes a command line argument k; reads in a sequence of N 
  * strings from standard input using StdIn.readString(); and prints out exactly 
