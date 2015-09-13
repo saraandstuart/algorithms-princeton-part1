@@ -10,6 +10,8 @@ import java.util.TreeSet;
 
 import org.junit.Test;
 
+import edu.princeton.cs.algs4.Point2D;
+
 /**
  * {@link KdTree} unit test
  * 

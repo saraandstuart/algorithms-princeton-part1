@@ -1,5 +1,8 @@
 import java.util.Comparator;
 
+import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.SET;
+
 /**
  * Kd-tree exercise KdTree
  * 

@@ -1,3 +1,6 @@
+import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.Stack;
+
 /**
  * 8-Puzzle Solver object
  * <p>

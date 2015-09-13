@@ -1,3 +1,7 @@
+import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.Stack;
+
 
 /**
  * Kd-tree exercise PointSET

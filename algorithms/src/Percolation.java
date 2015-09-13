@@ -1,6 +1,6 @@
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
 /**
- * 18th September 2014
- * <p>
  * This class simulates the percolation problem.
  * <p>
  * Run it from command line by typing java Percolation N, where N is the 
@@ -8,12 +8,13 @@
  * <p>
  * grid[boolean][boolean] - false means blocked, true means open
  * <p>
- * NB, index i means row, i.e. usually y from standard geometry; 
- * index j means column, i.e. usually x from standard geometry.
- * So open(i, j) == open(row, column) == open(y, x)
+ * <ul>
+ * <li>index i means row, i.e. usually y from standard geometry</li>
+ * <li>index j means column, i.e. usually x from standard geometry</li>
+ * <li>So open(i, j) == open(row, column) == open(y, x)</li>
+ * </il>
  * 
  * @author Stuart Shannon
- * 
  */
 
 public class Percolation {

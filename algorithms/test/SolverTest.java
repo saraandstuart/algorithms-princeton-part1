@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import edu.princeton.cs.algs4.Stack;
+
 /**
  * 18th December 2014
  * unit test for Solver

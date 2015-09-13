@@ -1,5 +1,7 @@
 import java.util.Arrays;
 
+import edu.princeton.cs.algs4.Stack;
+
 /**
  * 8-Puzzle Board object
  * 

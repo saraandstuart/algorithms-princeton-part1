@@ -1,8 +1,6 @@
 /**
- * 18th September 2014
- * 
  * This class performs a series of computational experiments of Percolation.
- * 
+ * <p>
  * Run it from command line by typing java PercolationStats N T where N is the 
  * size of grid and T is the number of computational experiments
  * 
@@ -17,8 +15,8 @@ public class PercolationStats {
 
     /**
      * Perform T independent computational experiments on an N-by-N grid
-     * @param N
-     * @param T
+     * @param N   - size of grid
+     * @param T   - number of experiments
      */
     public PercolationStats(int N, int T) {
         if (N <= 0 || T <= 0) {
@@ -47,7 +45,6 @@ public class PercolationStats {
 
     /**
      * Sample mean of percolation threshold
-     * @return
      */
     public double mean() {
         return StdStats.mean(percolationThresholds);
@@ -55,7 +52,6 @@ public class PercolationStats {
 
     /**
      * Sample standard deviation of percolation threshold
-     * @return
      */
     public double stddev() {
         if (numberOfExperiments == 1) {
@@ -66,7 +62,6 @@ public class PercolationStats {
 
     /**
      * Returns lower bound of the 95% confidence interval
-     * @return
      */
     public double confidenceLo() {
         return mean() - confidenceInterval();
@@ -74,7 +69,6 @@ public class PercolationStats {
 
     /**
      * Returns upper bound of the 95% confidence interval
-     * @return
      */
     public double confidenceHi() {
         return mean() + confidenceInterval();
@@ -86,7 +80,6 @@ public class PercolationStats {
 
     /**
      * Test client
-     * @param args
      */
     public static void main(String[] args) {
         int N = Integer.parseInt(args[0]);         // N-by-N percolation system
