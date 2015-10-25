@@ -2,6 +2,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.junit.Test;
 
 
@@ -51,5 +54,44 @@ public class RandomizedQueueTest {
         assertEquals(5, actual1.length());
         assertEquals(25, actual2.length());
         assertFalse(actual1.equals(actual2));
+    }
+    
+    @Test
+    public void iteratorOuptutsQueuedElementsOnly() 
+    {
+        //given
+        RandomizedQueue<String> randomQueue = new RandomizedQueue<String>();
+        randomQueue.enqueue("AA");
+        randomQueue.enqueue("BB");
+        randomQueue.enqueue("BB");
+        randomQueue.enqueue("BB");
+        randomQueue.enqueue("BB");
+        randomQueue.enqueue("BB");
+        randomQueue.enqueue("CC");
+        randomQueue.enqueue("CC");
+        
+        ArrayList<String> expectedResult = new ArrayList<String>();
+        expectedResult.add("AA");
+        expectedResult.add("BB");
+        expectedResult.add("BB");
+        expectedResult.add("BB");
+        expectedResult.add("BB");
+        expectedResult.add("BB");
+        expectedResult.add("CC");
+        expectedResult.add("CC");
+        
+        ArrayList<String> actualResult = new ArrayList<String>();
+        
+        //when
+        for (String curr : randomQueue)
+        {
+            actualResult.add(curr);
+        }
+        Collections.sort(expectedResult);
+        Collections.sort(actualResult);
+                
+        //then
+        assertEquals(expectedResult, actualResult);
+        
     }
 }

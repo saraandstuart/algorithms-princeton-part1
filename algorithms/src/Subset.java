@@ -7,6 +7,10 @@ import edu.princeton.cs.algs4.StdOut;
  * k of them, uniformly at random.  Each item from the sequence can be printed 
  * at most once.
  * 
+ * Example command line test:
+ * echo "AA BB BB BB BB BB CC CC " | \
+ * java -cp ~/git/algorithms-princeton-part1/algortihmslib/algs4.jar:. Subset 8
+ * 
  * 24th October 2014
  * 
  * @author Stuart Shannon
@@ -23,8 +27,14 @@ public class Subset {
             randomizedQueue.enqueue(item);
         }
         
-        for (int i = 0; i < k; i++) {
-            StdOut.println(randomizedQueue.iterator().next());
+        for (String curr : randomizedQueue) {
+            if (k > 0) {
+                StdOut.println(curr);
+            }
+            else {
+                break;
+            }
+            k--;
         }
         
     }
