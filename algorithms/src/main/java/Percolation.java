@@ -22,6 +22,7 @@ public class Percolation {
 
     private int gridSize;
     private boolean[][] grid;
+    private int numberOfOpenSites;
     private WeightedQuickUnionUF weightedQuickUnionUF;
     private WeightedQuickUnionUF noBackWashWeightedQuickUnionUF;
     private int virtualTop;
@@ -53,6 +54,7 @@ public class Percolation {
         validateIndices(i, j);
 
         grid[i][j] = true; // mark site as open
+        numberOfOpenSites++;
         
         linkToVirtualTopIfOnTopRow(i, j);
         linkToVirtualBottomIfOnBottomRow(i, j);
@@ -151,6 +153,14 @@ public class Percolation {
     public boolean isFull(int i, int j) {
         return isOpen(i, j) 
                 && noBackWashWeightedQuickUnionUF.connected(virtualTop, ijTo1D(i, j));
+    }
+
+    /**
+     * number of open sites
+     * @return
+     */
+    public int numberOfOpenSites() {
+        return numberOfOpenSites;
     }
 
     /**
